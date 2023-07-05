@@ -1,6 +1,6 @@
 ﻿using System;
-using Android.Gms.Maps.Model;
-using INativeTileProvider = Android.Gms.Maps.Model.ITileProvider;
+using Huawei.Hms.Maps.Model;
+using INativeTileProvider = Huawei.Hms.Maps.Model.ITileProvider;
 
 namespace Xamarin.Forms.GoogleMaps.Android
 {

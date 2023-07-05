@@ -1,18 +1,18 @@
 ﻿using System;
-using Android.Gms.Maps;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps;
+using Huawei.Hms.Maps.Model;
 using Java.Lang;
 using Xamarin.Forms.GoogleMaps.Android.Extensions;
 using Xamarin.Forms.GoogleMaps.Android.Logics;
 using Xamarin.Forms.GoogleMaps.Internals;
-using static Android.Gms.Maps.GoogleMap;
-using GCameraPosition = Android.Gms.Maps.Model.CameraPosition;
+using static Huawei.Hms.Maps.HuaweiMap;
+using GCameraPosition = Huawei.Hms.Maps.Model.CameraPosition;
 
-using GCameraUpdateFactory = Android.Gms.Maps.CameraUpdateFactory;
+using GCameraUpdateFactory = Huawei.Hms.Maps.CameraUpdateFactory;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public sealed class CameraLogic : BaseCameraLogic<GoogleMap>
+    public sealed class CameraLogic : BaseCameraLogic<HuaweiMap>
     {
         private readonly Action<LatLng> _updateVisibleRegion;
 
@@ -21,13 +21,12 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             _updateVisibleRegion = updateVisibleRegion;
         }
 
-        public override void Register(Map map, GoogleMap nativeMap)
+        public override void Register(Map map, HuaweiMap nativeMap)
         {
             base.Register(map, nativeMap);
 
             UnsubscribeCameraEvents(_nativeMap);
 
-            nativeMap.CameraChange += NativeMap_CameraChange;
             nativeMap.CameraMoveStarted += NativeMap_CameraMoveStarted;
             nativeMap.CameraMove += NativeMap_CameraMove;
             nativeMap.CameraIdle += NativeMap_CameraIdle;
@@ -39,14 +38,13 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             base.Unregister();
         }
 
-        private void UnsubscribeCameraEvents(GoogleMap nativeMap)
+        private void UnsubscribeCameraEvents(HuaweiMap nativeMap)
         {
             if (nativeMap == null)
             {
                 return;
             }
             
-            nativeMap.CameraChange -= NativeMap_CameraChange;
             nativeMap.CameraMoveStarted -= NativeMap_CameraMoveStarted;
             nativeMap.CameraMove -= NativeMap_CameraMove;
             nativeMap.CameraIdle -= NativeMap_CameraIdle;
@@ -106,18 +104,11 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        void NativeMap_CameraChange(object sender, CameraChangeEventArgs e)
-        {
-            _updateVisibleRegion?.Invoke(e.Position.Target);
-            var camera = e.Position.ToXamarinForms();
-            _map.CameraPosition = camera;
-            _map.SendCameraChanged(camera);
-        }
 
-        void NativeMap_CameraMoveStarted(object sender, GoogleMap.CameraMoveStartedEventArgs e)
+        void NativeMap_CameraMoveStarted(object sender, HuaweiMap.CameraMoveStartedEventArgs e)
         {
             // see https://developers.google.com/maps/documentation/android-api/events#camera_change_events
-            _map.SendCameraMoveStarted(e.Reason == OnCameraMoveStartedListener.ReasonGesture);
+            _map.SendCameraMoveStarted(e.P0 == OnCameraMoveStartedListener.ReasonGesture);
         }
 
         void NativeMap_CameraMove(object sender, System.EventArgs e)

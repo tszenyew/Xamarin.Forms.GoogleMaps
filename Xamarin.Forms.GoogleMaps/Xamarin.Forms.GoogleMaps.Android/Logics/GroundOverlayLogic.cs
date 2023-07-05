@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Android.Gms.Maps;
-using NativeGroundOverlay = Android.Gms.Maps.Model.GroundOverlay;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps;
+using NativeGroundOverlay = Huawei.Hms.Maps.Model.GroundOverlay;
+using Huawei.Hms.Maps.Model;
 using Xamarin.Forms.GoogleMaps.Android.Extensions;
 using System.Linq;
 using Xamarin.Forms.GoogleMaps.Android.Factories;
@@ -12,22 +12,22 @@ using Android.Content;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public class GroundOverlayLogic : DefaultGroundOverlayLogic<NativeGroundOverlay, GoogleMap>
+    public class GroundOverlayLogic : DefaultGroundOverlayLogic<NativeGroundOverlay, HuaweiMap>
     {
         protected override IList<GroundOverlay> GetItems(Map map) => map.GroundOverlays;
 
         private readonly Context _context;
-        private readonly IBitmapDescriptorFactory _bitmapDescriptorFactory;
+        private readonly IHMSBitmapDescriptorFactory _bitmapDescriptorFactory;
 
         public GroundOverlayLogic(
             Context context, 
-            IBitmapDescriptorFactory bitmapDescriptorFactory)
+            IHMSBitmapDescriptorFactory bitmapDescriptorFactory)
         {
             _context = context;
             _bitmapDescriptorFactory = bitmapDescriptorFactory;
         }
 
-        public override void Register(GoogleMap oldNativeMap, Map oldMap, GoogleMap newNativeMap, Map newMap)
+        public override void Register(HuaweiMap oldNativeMap, Map oldMap, HuaweiMap newNativeMap, Map newMap)
         {
             base.Register(oldNativeMap, oldMap, newNativeMap, newMap);
 
@@ -37,7 +37,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        public override void Unregister(GoogleMap nativeMap, Map map)
+        public override void Unregister(HuaweiMap nativeMap, Map map)
         {
             if (nativeMap != null)
             {
@@ -89,10 +89,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             return nativeOverlay;
         }
 
-        void OnGroundOverlayClick(object sender, GoogleMap.GroundOverlayClickEventArgs e)
+        void OnGroundOverlayClick(object sender, HuaweiMap.GroundOverlayClickEventArgs e)
         {
             // clicked ground overlay
-            var nativeItem = e.GroundOverlay;
+            var nativeItem = e.P0;
 
             // lookup overlay
             var targetOuterItem = GetItems(Map).FirstOrDefault(

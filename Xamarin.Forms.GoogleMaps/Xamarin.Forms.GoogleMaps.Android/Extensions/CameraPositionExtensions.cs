@@ -1,5 +1,5 @@
 ﻿using System;
-using GCameraPosition = Android.Gms.Maps.Model.CameraPosition;
+using GCameraPosition = Huawei.Hms.Maps.Model.CameraPosition;
 
 namespace Xamarin.Forms.GoogleMaps.Android.Extensions
 {

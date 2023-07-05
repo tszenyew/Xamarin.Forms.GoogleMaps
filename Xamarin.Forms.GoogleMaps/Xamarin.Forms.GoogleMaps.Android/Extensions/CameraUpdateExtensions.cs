@@ -1,6 +1,6 @@
 ﻿using System;
-using GCameraUpdateFactory = Android.Gms.Maps.CameraUpdateFactory;
-using GCameraUpdate = Android.Gms.Maps.CameraUpdate;
+using GCameraUpdateFactory = Huawei.Hms.Maps.CameraUpdateFactory;
+using GCameraUpdate = Huawei.Hms.Maps.CameraUpdate;
 using Xamarin.Forms.GoogleMaps.Internals;
 
 namespace Xamarin.Forms.GoogleMaps.Android.Extensions

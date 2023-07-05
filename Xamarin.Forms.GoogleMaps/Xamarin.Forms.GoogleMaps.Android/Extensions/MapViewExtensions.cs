@@ -1,4 +1,4 @@
-using Android.Gms.Maps;
+using Huawei.Hms.Maps;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System;
@@ -8,9 +8,9 @@ namespace Xamarin.Forms.GoogleMaps.Android.Extensions
     public static class MapViewExtensions
     {
         [MethodImpl(MethodImplOptions.NoInlining)]
-        internal static Task<GoogleMap> GetGoogleMapAsync(this MapView self)
+        internal static Task<HuaweiMap> GetGoogleMapAsync(this MapView self)
         {
-            var comp = new TaskCompletionSource<GoogleMap>();
+            var comp = new TaskCompletionSource<HuaweiMap>();
             self.GetMapAsync(new OnMapReadyCallback(map =>
             {
                 comp.SetResult(map);
@@ -22,14 +22,14 @@ namespace Xamarin.Forms.GoogleMaps.Android.Extensions
 
     class OnMapReadyCallback : Java.Lang.Object, IOnMapReadyCallback
     {
-        readonly Action<GoogleMap> handler;
+        readonly Action<HuaweiMap> handler;
 
-        public OnMapReadyCallback(Action<GoogleMap> handler)
+        public OnMapReadyCallback(Action<HuaweiMap> handler)
         {
             this.handler = handler;
         }
 
-        void IOnMapReadyCallback.OnMapReady(GoogleMap googleMap)
+        void IOnMapReadyCallback.OnMapReady(HuaweiMap googleMap)
         {
             handler?.Invoke(googleMap);
         }

@@ -1,6 +1,6 @@
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps.Model;
 using System.Collections.Generic;
-using Android.Gms.Maps;
+using Huawei.Hms.Maps;
 using System.Linq;
 using System.ComponentModel;
 using Xamarin.Forms.GoogleMaps.Android;
@@ -12,7 +12,7 @@ using Xamarin.Forms.GoogleMaps.Android.Factories;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public class PinLogic : DefaultPinLogic<Marker, GoogleMap>
+    public class PinLogic : DefaultPinLogic<Marker, HuaweiMap>
     {
         protected override IList<Pin> GetItems(Map map) => map.Pins;
 
@@ -21,7 +21,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
         private volatile bool _withoutUpdateNative = false;
 
         private readonly Context _context;
-        private readonly IBitmapDescriptorFactory _bitmapDescriptorFactory;
+        private readonly IHMSBitmapDescriptorFactory _bitmapDescriptorFactory;
         private readonly Action<Pin, MarkerOptions> _onMarkerCreating;
         private readonly Action<Pin, Marker> _onMarkerCreated;
         private readonly Action<Pin, Marker> _onMarkerDeleting;
@@ -29,7 +29,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
 
         public PinLogic(
             Context context,
-            IBitmapDescriptorFactory bitmapDescriptorFactory,
+            IHMSBitmapDescriptorFactory bitmapDescriptorFactory,
             Action<Pin, MarkerOptions> onMarkerCreating,
             Action<Pin, Marker> onMarkerCreated, 
             Action<Pin, Marker> onMarkerDeleting,
@@ -43,7 +43,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             _onMarkerDeleted = onMarkerDeleted;
         }
 
-        public override void Register(GoogleMap oldNativeMap, Map oldMap, GoogleMap newNativeMap, Map newMap)
+        public override void Register(HuaweiMap oldNativeMap, Map oldMap, HuaweiMap newNativeMap, Map newMap)
         {
             base.Register(oldNativeMap, oldMap, newNativeMap, newMap);
 
@@ -59,7 +59,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        public override void Unregister(GoogleMap nativeMap, Map map)
+        public override void Unregister(HuaweiMap nativeMap, Map map)
         {
             if (nativeMap != null)
             {
@@ -78,22 +78,22 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
         protected override Marker CreateNativeItem(Pin outerItem)
         {
             var opts = new MarkerOptions()
-                .SetPosition(new LatLng(outerItem.Position.Latitude, outerItem.Position.Longitude))
-                .SetTitle(outerItem.Label)
-                .SetSnippet(outerItem.Address)
-                .SetSnippet(outerItem.Address)
+                .InvokePosition(new LatLng(outerItem.Position.Latitude, outerItem.Position.Longitude))
+                .InvokeTitle(outerItem.Label)
+                .InvokeSnippet(outerItem.Address)
+                .InvokeSnippet(outerItem.Address)
                 .Draggable(outerItem.IsDraggable)
-                .SetRotation(outerItem.Rotation)
+                .InvokeRotation(outerItem.Rotation)
                 .Anchor((float)outerItem.Anchor.X, (float)outerItem.Anchor.Y)
                 .InvokeZIndex(outerItem.ZIndex)
                 .Flat(outerItem.Flat)
-                .SetAlpha(1f - outerItem.Transparency);
+                .InvokeAlpha(1f - outerItem.Transparency);
 
             if (outerItem.Icon != null)
             {
                 var factory = _bitmapDescriptorFactory ?? DefaultBitmapDescriptorFactory.Instance;
                 var nativeDescriptor = factory.ToNative(outerItem.Icon);
-                opts.SetIcon(nativeDescriptor);
+                opts.InvokeIcon(nativeDescriptor);
             }
 
             _onMarkerCreating(outerItem, opts);
@@ -137,10 +137,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             return GetItems(Map).FirstOrDefault(outerItem => ((Marker)outerItem.NativeObject).Id == marker.Id);
         }
 
-        void OnInfoWindowClick(object sender, GoogleMap.InfoWindowClickEventArgs e)
+        void OnInfoWindowClick(object sender, HuaweiMap.InfoWindowClickEventArgs e)
         {
             // lookup pin
-            var targetPin = LookupPin(e.Marker);
+            var targetPin = LookupPin(e.P0);
 
             // only consider event handled if a handler is present.
             // Else allow default behavior of displaying an info window.
@@ -152,10 +152,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        private void OnInfoWindowLongClick(object sender, GoogleMap.InfoWindowLongClickEventArgs e)
+        private void OnInfoWindowLongClick(object sender, HuaweiMap.InfoWindowLongClickEventArgs e)
         {
             // lookup pin
-            var targetPin = LookupPin(e.Marker);
+            var targetPin = LookupPin(e.P0);
 
             // only consider event handled if a handler is present.
             // Else allow default behavior of displaying an info window.
@@ -165,10 +165,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        void OnMakerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+        void OnMakerClick(object sender, HuaweiMap.MarkerClickEventArgs e)
         {
             // lookup pin
-            var targetPin = LookupPin(e.Marker);
+            var targetPin = LookupPin(e.P0);
 
             // If set to PinClickedEventArgs.Handled = true in app codes,
             // then all pin selection controlling by app.
@@ -192,10 +192,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             e.Handled = false;
         }
 
-        void OnInfoWindowClose(object sender, GoogleMap.InfoWindowCloseEventArgs e)
+        void OnInfoWindowClose(object sender, HuaweiMap.InfoWindowCloseEventArgs e)
         {
             // lookup pin
-            var targetPin = LookupPin(e.Marker);
+            var targetPin = LookupPin(e.P0);
 
             try
             {
@@ -209,32 +209,32 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        void OnMarkerDragStart(object sender, GoogleMap.MarkerDragStartEventArgs e)
+        void OnMarkerDragStart(object sender, HuaweiMap.MarkerDragStartEventArgs e)
         {
             // lookup pin
-            _draggingPin = LookupPin(e.Marker);
+            _draggingPin = LookupPin(e.P0);
 
             if (_draggingPin != null)
             {
-                UpdatePositionWithoutMove(_draggingPin, e.Marker.Position.ToPosition());
+                UpdatePositionWithoutMove(_draggingPin, e.P0.Position.ToPosition());
                 Map.SendPinDragStart(_draggingPin);
             }
         }
 
-        void OnMarkerDrag(object sender, GoogleMap.MarkerDragEventArgs e)
+        void OnMarkerDrag(object sender, HuaweiMap.MarkerDragEventArgs e)
         {
             if (_draggingPin != null)
             {
-                UpdatePositionWithoutMove(_draggingPin, e.Marker.Position.ToPosition());
+                UpdatePositionWithoutMove(_draggingPin, e.P0.Position.ToPosition());
                 Map.SendPinDragging(_draggingPin);
             }
         }
 
-        void OnMarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
+        void OnMarkerDragEnd(object sender, HuaweiMap.MarkerDragEndEventArgs e)
         {
             if (_draggingPin != null)
             {
-                UpdatePositionWithoutMove(_draggingPin, e.Marker.Position.ToPosition());
+                UpdatePositionWithoutMove(_draggingPin, e.P0.Position.ToPosition());
                 Map.SendPinDragEnd(_draggingPin);
                 _draggingPin = null;
             }

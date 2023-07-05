@@ -1,10 +1,10 @@
 ﻿using System;
-using Android.Gms.Maps;
+using Huawei.Hms.Maps;
 using Xamarin.Forms.GoogleMaps.Logics;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public sealed class UiSettingsLogic : BaseUiSettingsLogic<GoogleMap>
+    public sealed class UiSettingsLogic : BaseUiSettingsLogic<HuaweiMap>
     {
         // These properties are 'null' when call Initialize()
         // If 'not null' then set true/false in app's page constructor.

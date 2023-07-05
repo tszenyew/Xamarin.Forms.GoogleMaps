@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Android.Gms.Maps;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps;
+using Huawei.Hms.Maps.Model;
 using Android.Runtime;
 using Xamarin.Forms.GoogleMaps.Android;
 using Xamarin.Forms.GoogleMaps.Android.Extensions;
 using Xamarin.Forms.Platform.Android;
-using NativePolygon = Android.Gms.Maps.Model.Polygon;
+using NativePolygon = Huawei.Hms.Maps.Model.Polygon;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public class PolygonLogic : DefaultPolygonLogic<NativePolygon, GoogleMap>
+    public class PolygonLogic : DefaultPolygonLogic<NativePolygon, HuaweiMap>
     {
         protected override IList<Polygon> GetItems(Map map) => map.Polygons;
 
-        public override void Register(GoogleMap oldNativeMap, Map oldMap, GoogleMap newNativeMap, Map newMap)
+        public override void Register(HuaweiMap oldNativeMap, Map oldMap, HuaweiMap newNativeMap, Map newMap)
         {
             base.Register(oldNativeMap, oldMap, newNativeMap, newMap);
 
@@ -26,7 +26,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        public override void Unregister(GoogleMap nativeMap, Map map)
+        public override void Unregister(HuaweiMap nativeMap, Map map)
         {
             if (nativeMap != null)
             {
@@ -67,7 +67,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             outerItem.SetOnHolesChanged((polygon, e) =>
             {
                 var native = polygon.NativeObject as NativePolygon;
-                native.SetHoles((IList<IList<LatLng>>)polygon.Holes
+                native.Holes = ((IList<IList<LatLng>>)polygon.Holes
                     .Select(x => (IList<LatLng>)x.Select(y=>y.ToLatLng()).ToJavaList())
                                 .ToJavaList());
             });
@@ -89,10 +89,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             return nativePolygon;
         }
 
-        void OnPolygonClick(object sender, GoogleMap.PolygonClickEventArgs e)
+        void OnPolygonClick(object sender, HuaweiMap.PolygonClickEventArgs e)
         {
             // clicked polyline
-            var nativeItem = e.Polygon;
+            var nativeItem = e.P0;
 
             // lookup pin
             var targetOuterItem = GetItems(Map).FirstOrDefault(

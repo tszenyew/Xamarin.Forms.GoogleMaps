@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using Android.Gms.Maps;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps;
+using Huawei.Hms.Maps.Model;
 using Android.OS;
 using Java.Lang;
 using Xamarin.Forms.Platform.Android;
@@ -22,21 +22,21 @@ using Xamarin.Forms.GoogleMaps.Internals;
 namespace Xamarin.Forms.GoogleMaps.Android
 {
     public class MapRenderer : ViewRenderer<Map, global::Android.Views.View>,
-        GoogleMap.IOnMapClickListener,
-        GoogleMap.IOnMapLongClickListener,
-        GoogleMap.IOnMyLocationButtonClickListener
+        HuaweiMap.IOnMapClickListener,
+        HuaweiMap.IOnMapLongClickListener,
+        HuaweiMap.IOnMyLocationButtonClickListener
     {
         readonly CameraLogic _cameraLogic;
         readonly UiSettingsLogic _uiSettingsLogic = new UiSettingsLogic();
         
-        internal IList<BaseLogic<GoogleMap>> Logics { get; }
+        internal IList<BaseLogic<HuaweiMap>> Logics { get; }
 
         public MapRenderer(Context context) : base(context)
         {
             _cameraLogic = new CameraLogic(UpdateVisibleRegion);
 
             AutoPackage = false;
-            Logics = new List<BaseLogic<GoogleMap>>
+            Logics = new List<BaseLogic<HuaweiMap>>
             {
                 new PolylineLogic(),
                 new PolygonLogic(),
@@ -51,10 +51,10 @@ namespace Xamarin.Forms.GoogleMaps.Android
         static Bundle s_bundle;
         internal static Bundle Bundle { set { s_bundle = value; } }
 
-        protected internal static PlatformConfig Config { protected get; set; }
+        protected internal static HMSPlatformConfig Config { protected get; set; }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        protected virtual GoogleMap NativeMap { get; private set; }
+        protected virtual HuaweiMap NativeMap { get; private set; }
 
         // ReSharper disable once MemberCanBePrivate.Global
         protected Map Map => Element;
@@ -78,8 +78,8 @@ namespace Xamarin.Forms.GoogleMaps.Android
                 return;
             }
 
-            // For XAML Previewer or FormsGoogleMaps.Init not called.
-            if (!FormsGoogleMaps.IsInitialized)
+            // For XAML Previewer or FormsHuaweiMaps.Init not called.
+            if (!FormsHuaweiMaps.IsInitialized)
             {
                 var tv = new TextView(Context)
                 {
@@ -93,7 +93,7 @@ namespace Xamarin.Forms.GoogleMaps.Android
             }
 
             // Uninitialize old view
-            GoogleMap oldNativeMap = null;
+            HuaweiMap oldNativeMap = null;
             Map oldMap = null;
             if (e.OldElement != null)
             {
@@ -157,7 +157,7 @@ namespace Xamarin.Forms.GoogleMaps.Android
             }));
         }
 
-        protected virtual void OnMapReady(GoogleMap nativeMap, Map map)
+        protected virtual void OnMapReady(HuaweiMap nativeMap, Map map)
         {
             if (nativeMap != null)
             {
@@ -195,8 +195,8 @@ namespace Xamarin.Forms.GoogleMaps.Android
         {
             base.OnLayout(changed, l, t, r, b);
 
-            // For XAML Previewer or FormsGoogleMaps.Init not called.
-            if (!FormsGoogleMaps.IsInitialized)
+            // For XAML Previewer or FormsHuaweiMaps.Init not called.
+            if (!FormsHuaweiMaps.IsInitialized)
             {
                 return;
             }
@@ -234,8 +234,8 @@ namespace Xamarin.Forms.GoogleMaps.Android
         {
             base.OnElementPropertyChanged(sender, e);
 
-            // For XAML Previewer or FormsGoogleMaps.Init not called.
-            if (!FormsGoogleMaps.IsInitialized)
+            // For XAML Previewer or FormsHuaweiMaps.Init not called.
+            if (!FormsHuaweiMaps.IsInitialized)
             {
                 return;
             }
@@ -359,19 +359,19 @@ namespace Xamarin.Forms.GoogleMaps.Android
             switch (Map.MapType)
             {
                 case MapType.Street:
-                    map.MapType = GoogleMap.MapTypeNormal;
+                    map.MapType = HuaweiMap.MapTypeNormal;
                     break;
                 case MapType.Satellite:
-                    map.MapType = GoogleMap.MapTypeSatellite;
+                    map.MapType = HuaweiMap.MapTypeSatellite;
                     break;
                 case MapType.Hybrid:
-                    map.MapType = GoogleMap.MapTypeHybrid;
+                    map.MapType = HuaweiMap.MapTypeHybrid;
                     break;
                 case MapType.Terrain:
-                    map.MapType = GoogleMap.MapTypeTerrain;
+                    map.MapType = HuaweiMap.MapTypeTerrain;
                     break;
                 case MapType.None:
-                    map.MapType = GoogleMap.MapTypeNone;
+                    map.MapType = HuaweiMap.MapTypeNone;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -473,7 +473,7 @@ namespace Xamarin.Forms.GoogleMaps.Android
 
         #endregion
 
-        private void Uninitialize(GoogleMap nativeMap, Map map) 
+        private void Uninitialize(HuaweiMap nativeMap, Map map) 
         {
             try
             {

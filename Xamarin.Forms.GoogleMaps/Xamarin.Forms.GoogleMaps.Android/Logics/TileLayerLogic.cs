@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps.Model;
 using Xamarin.Forms.GoogleMaps.Android;
-using NativeTileOverlay = Android.Gms.Maps.Model.TileOverlay;
-using Android.Gms.Maps;
+using NativeTileOverlay = Huawei.Hms.Maps.Model.TileOverlay;
+using Huawei.Hms.Maps;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public class TileLayerLogic : DefaultLogic<TileLayer, NativeTileOverlay, GoogleMap>
+    public class TileLayerLogic : DefaultLogic<TileLayer, NativeTileOverlay, HuaweiMap>
     {
         protected override IList<TileLayer> GetItems(Map map) => map.TileLayers;
 

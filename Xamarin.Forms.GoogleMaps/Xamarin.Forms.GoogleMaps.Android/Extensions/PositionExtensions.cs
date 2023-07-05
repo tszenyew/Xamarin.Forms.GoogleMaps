@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps.Model;
 using System.Linq;
 namespace Xamarin.Forms.GoogleMaps.Android
 {

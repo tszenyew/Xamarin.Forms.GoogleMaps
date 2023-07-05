@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps.Model;
 using Xamarin.Forms.Platform.Android;
-using NativeCircle = Android.Gms.Maps.Model.Circle;
+using NativeCircle = Huawei.Hms.Maps.Model.Circle;
 using Xamarin.Forms.GoogleMaps.Android;
-using Android.Gms.Maps;
+using Huawei.Hms.Maps;
 using System.Linq;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public class CircleLogic : DefaultCircleLogic<NativeCircle, GoogleMap>
+    public class CircleLogic : DefaultCircleLogic<NativeCircle, HuaweiMap>
     {
-        public override void Register(GoogleMap oldNativeMap, Map oldMap, GoogleMap newNativeMap, Map newMap)
+        public override void Register(HuaweiMap oldNativeMap, Map oldMap, HuaweiMap newNativeMap, Map newMap)
         {
             base.Register(oldNativeMap, oldMap, newNativeMap, newMap);
 
@@ -22,7 +22,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        public override void Unregister(GoogleMap nativeMap, Map map)
+        public override void Unregister(HuaweiMap nativeMap, Map map)
         {
             if (nativeMap != null)
             {
@@ -62,10 +62,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             return nativeCircle;
         }
 
-        private void OnCircleClick(object sender, GoogleMap.CircleClickEventArgs e)
+        private void OnCircleClick(object sender, HuaweiMap.CircleClickEventArgs e)
         {
             // clicked circle
-            var nativeItem = e.Circle;
+            var nativeItem = e.P0;
 
             // lookup circle
             var targetOuterItem = GetItems(Map).FirstOrDefault(

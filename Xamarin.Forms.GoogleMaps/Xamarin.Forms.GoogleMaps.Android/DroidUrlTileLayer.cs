@@ -1,5 +1,5 @@
 ﻿using System;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps.Model;
 
 namespace Xamarin.Forms.GoogleMaps.Android
 {

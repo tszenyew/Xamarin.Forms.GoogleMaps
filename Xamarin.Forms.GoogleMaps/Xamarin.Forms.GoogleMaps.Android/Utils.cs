@@ -66,14 +66,14 @@ namespace Xamarin.Forms.GoogleMaps.Android
         }
 
         private static LinkedList<string> lruTracker = new LinkedList<string>();
-        private static ConcurrentDictionary<string, global::Android.Gms.Maps.Model.BitmapDescriptor> cache = new ConcurrentDictionary<string, global::Android.Gms.Maps.Model.BitmapDescriptor>();
+        private static ConcurrentDictionary<string, global::Huawei.Hms.Maps.Model.BitmapDescriptor> cache = new ConcurrentDictionary<string, global::Huawei.Hms.Maps.Model.BitmapDescriptor>();
 
-        public static Task<global::Android.Gms.Maps.Model.BitmapDescriptor> ConvertViewToBitmapDescriptor(global::Android.Views.View v)
+        public static Task<global::Huawei.Hms.Maps.Model.BitmapDescriptor> ConvertViewToBitmapDescriptor(global::Android.Views.View v)
         {
             return Task.Run(() => {
 
                 var bmp = ConvertViewToBitmap(v);
-                var img = global::Android.Gms.Maps.Model.BitmapDescriptorFactory.FromBitmap(bmp);
+                var img = global::Huawei.Hms.Maps.Model.BitmapDescriptorFactory.FromBitmap(bmp);
 
                 var buffer = ByteBuffer.Allocate(bmp.ByteCount);
                 bmp.CopyPixelsToBuffer(buffer);
@@ -100,7 +100,7 @@ namespace Xamarin.Forms.GoogleMaps.Android
                     }
                     if (lruTracker.Count > 10) // O(1)
                     {
-                        global::Android.Gms.Maps.Model.BitmapDescriptor tmp;
+                        global::Huawei.Hms.Maps.Model.BitmapDescriptor tmp;
                         cache.TryRemove(lruTracker.First.Value, out tmp);
                         lruTracker.RemoveFirst();
                     }

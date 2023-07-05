@@ -1,10 +1,10 @@
 ﻿using System;
-using Android.Gms.Maps;
+using Huawei.Hms.Maps;
 using Android.Graphics;
 
 namespace Xamarin.Forms.GoogleMaps.Android.Logics
 {
-    public sealed class DelegateSnapshotReadyCallback : Java.Lang.Object, GoogleMap.ISnapshotReadyCallback
+    public sealed class DelegateSnapshotReadyCallback : Java.Lang.Object, HuaweiMap.ISnapshotReadyCallback
     {
         private readonly Action<Bitmap> _handler;
 

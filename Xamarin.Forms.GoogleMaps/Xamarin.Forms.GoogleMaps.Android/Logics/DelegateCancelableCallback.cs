@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Xamarin.Forms.GoogleMaps.Android.Logics
 {
-    public class DelegateCancelableCallback : Java.Lang.Object, global::Android.Gms.Maps.GoogleMap.ICancelableCallback
+    public class DelegateCancelableCallback : Java.Lang.Object, global::Huawei.Hms.Maps.HuaweiMap.ICancelableCallback
     {
         private readonly Action _onFinish;
         private readonly Action _onCancel;

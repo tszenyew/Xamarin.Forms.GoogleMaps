@@ -71,7 +71,7 @@
     <Compile Include="DroidAsyncTileLayer.cs" />
     <Compile Include="DroidSyncTileLayer.cs" />
     <Compile Include="DroidUrlTileLayer.cs" />
-    <Compile Include="FormsGoogleMaps.cs" />
+    <Compile Include="FormsHuaweiMaps.cs" />
     <Compile Include="GeocoderBackend.cs" />
     <Compile Include="MapRenderer.cs" />
     <Compile Include="PlatformConfig.cs" />
@@ -79,11 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.5" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Maps">
-      <Version>118.0.2.2</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.2012</Version>
+    </PackageReference>
+    <PackageReference Include="Huawei.Hms.Maps">
+      <Version>6.5.0.302</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

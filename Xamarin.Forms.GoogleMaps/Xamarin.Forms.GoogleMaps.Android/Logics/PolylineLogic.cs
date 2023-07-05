@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Android.Gms.Maps;
-using Android.Gms.Maps.Model;
+using Huawei.Hms.Maps;
+using Huawei.Hms.Maps.Model;
 using Xamarin.Forms.GoogleMaps.Android;
 using Xamarin.Forms.Platform.Android;
-using NativePolyline = Android.Gms.Maps.Model.Polyline;
+using NativePolyline = Huawei.Hms.Maps.Model.Polyline;
 
 namespace Xamarin.Forms.GoogleMaps.Logics.Android
 {
-    public class PolylineLogic : DefaultPolylineLogic<NativePolyline, GoogleMap>
+    public class PolylineLogic : DefaultPolylineLogic<NativePolyline, HuaweiMap>
     {
         protected override IList<Polyline> GetItems(Map map) => map.Polylines;
 
-        public override void Register(GoogleMap oldNativeMap, Map oldMap, GoogleMap newNativeMap, Map newMap)
+        public override void Register(HuaweiMap oldNativeMap, Map oldMap, HuaweiMap newNativeMap, Map newMap)
         {
             base.Register(oldNativeMap, oldMap, newNativeMap, newMap);
 
@@ -24,7 +24,7 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             }
         }
 
-        public override void Unregister(GoogleMap nativeMap, Map map)
+        public override void Unregister(HuaweiMap nativeMap, Map map)
         {
             if (nativeMap != null)
             {
@@ -72,10 +72,10 @@ namespace Xamarin.Forms.GoogleMaps.Logics.Android
             return nativeShape;
         }
 
-        void OnPolylineClick(object sender, GoogleMap.PolylineClickEventArgs e)
+        void OnPolylineClick(object sender, HuaweiMap.PolylineClickEventArgs e)
         {
             // clicked polyline
-            var nativeItem = e.Polyline;
+            var nativeItem = e.P0;
 
             // lookup pin
             var targetOuterItem = GetItems(Map).FirstOrDefault(

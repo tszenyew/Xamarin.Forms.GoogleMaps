@@ -1,11 +1,11 @@
 ﻿using System;
 using Android.Graphics;
-using AndroidBitmapDescriptor = Android.Gms.Maps.Model.BitmapDescriptor;
-using AndroidBitmapDescriptorFactory = Android.Gms.Maps.Model.BitmapDescriptorFactory;
+using AndroidBitmapDescriptor = Huawei.Hms.Maps.Model.BitmapDescriptor;
+using AndroidBitmapDescriptorFactory = Huawei.Hms.Maps.Model.BitmapDescriptorFactory;
 
 namespace Xamarin.Forms.GoogleMaps.Android.Factories
 {
-    public sealed class DefaultBitmapDescriptorFactory : IBitmapDescriptorFactory
+    public sealed class DefaultBitmapDescriptorFactory : IHMSBitmapDescriptorFactory
     {
         private static readonly Lazy<DefaultBitmapDescriptorFactory> _instance
             = new Lazy<DefaultBitmapDescriptorFactory>(() => new DefaultBitmapDescriptorFactory());
@@ -26,7 +26,7 @@ namespace Xamarin.Forms.GoogleMaps.Android.Factories
                 case BitmapDescriptorType.Default:
                     return AndroidBitmapDescriptorFactory.DefaultMarker((float)((descriptor.Color.Hue * 360f) % 360f));
                 case BitmapDescriptorType.Bundle:
-					var context = FormsGoogleMaps.Context;
+					var context = FormsHuaweiMaps.Context;
                     using (var stream = context.Assets.Open(descriptor.BundleName))
                     {
                         return AndroidBitmapDescriptorFactory.FromBitmap(BitmapFactory.DecodeStream(stream));

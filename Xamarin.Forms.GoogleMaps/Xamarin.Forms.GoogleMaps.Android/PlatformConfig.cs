@@ -1,9 +1,11 @@
 ﻿using Xamarin.Forms.GoogleMaps.Android.Factories;
+using static Huawei.Hms.Maps.HuaweiMap;
 
 namespace Xamarin.Forms.GoogleMaps.Android
 {
-    public sealed class PlatformConfig
+    public sealed class HMSPlatformConfig
     {
-        public IBitmapDescriptorFactory BitmapDescriptorFactory { get; set; }
+        public IHMSBitmapDescriptorFactory BitmapDescriptorFactory { get; set; }
+        public IInfoWindowAdapter MapInfoWindowAdaper { get; set; }
     }
 }
